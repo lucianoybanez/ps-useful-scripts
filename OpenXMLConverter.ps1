@@ -3,7 +3,7 @@
   Convert Html file to Word document.
 
   .DESCRIPTION
-  The OpenXMLConverter.ps1 script copy an empty existing word and include on it the html.
+  The OpenXMLConverter.ps1 script copies an empty existing word and include on it the html.
 
   .INPUTS
   None. You cannot pipe objects to OpenXMLConverter.ps1.
