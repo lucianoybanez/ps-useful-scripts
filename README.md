@@ -15,3 +15,5 @@ Requirements
 |-----------------|-----------------|
 | .NET Framework  | 3.5             |
 | .NET Core       | 1.0             |
+
+OpenXml tool installed
