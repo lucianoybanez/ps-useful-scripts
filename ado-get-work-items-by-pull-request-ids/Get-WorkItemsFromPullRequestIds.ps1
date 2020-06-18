@@ -34,34 +34,9 @@ function DevOpsGetWorkItemsByPullRequestIds
             
             #Get all items
             $url = "$DevopsBaseUrl/$DevopsProject/_apis/wit/workitems?ids=$items&fields=System.Id,System.Title,System.WorkItemType,System.Parent&api-version=5.1"                        
-            $response2 = Invoke-RestMethod -Uri $url -Headers $AdoAuthenicationHeader -Method get
-            
-            #Get the parent ids of tasks
-            $partenIds =@()
-            $allWorkInfo = $response2.value 
-            $allWorkInfo  | ForEach-Object {
-                if(($_.fields.'System.WorkItemType' -eq 'Task') -and ($_.fields.'System.Parent')){
-                    $partenIds += $_.fields.'System.Parent'                
-                }            
-            }
-            
-            #Get the PBI work items of tasks
-            if($partenIds){
-                $partenIds = $partenIds | Select-Object -Unique
-                $itemsParentIds = [system.String]::Join(",", $partenIds)
-                
-                $url = "$DevopsBaseUrl/$DevopsProject/_apis/wit/workitems?ids=$itemsParentIds&fields=System.Id,System.Title,System.WorkItemType,System.Parent&api-version=5.1"                        
-                $response3 = Invoke-RestMethod -Uri $url -Headers $AdoAuthenicationHeader -Method get
-                $allWorkInfo += $response3.value
-            }
-    
-            #Filter by PBI and Bugs only
-            $allWorkInfo = $allWorkInfo | Where-Object {$_.fields.'System.WorkItemType' -in ('Product Backlog Item','Bug')}            
-    
-            #Remove duplicated
-            $allWorkInfo = $allWorkInfo | Select-Object -Property id,fields -Unique            
+            $response2 = Invoke-RestMethod -Uri $url -Headers $AdoAuthenicationHeader -Method get                      
         }
-        return $allWorkInfo
+        return $response2
     }else{
         Write-Error "PAT cannot be empty"
     }
